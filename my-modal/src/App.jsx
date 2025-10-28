@@ -11,37 +11,45 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username.trim()) {
-      alert("Please fill out Username");
-      return;
-    }
-    if (!email.trim()) {
-      alert("Please fill out Email Address");
-      return;
-    }
-    if (!email.includes("@")) {
+    // EMAIL VALIDATION TEST
+    if (email && !email.includes("@")) {
       alert("Invalid email. Please check your email address.");
       return;
     }
-    if (!phone.trim()) {
-      alert("Please fill out Phone Number");
-      return;
-    }
-    if (!/^[0-9]{10}$/.test(phone)) {
+
+    // PHONE VALIDATION TEST
+    if (phone && !/^[0-9]{10}$/.test(phone)) {
       alert("Invalid phone number. Please enter a 10-digit phone number.");
       return;
     }
-    if (!dob) {
-      alert("Please fill out Date of Birth");
-      return;
+
+    // DOB VALIDATION TEST
+    if (dob) {
+      const today = new Date();
+      const selected = new Date(dob);
+      if (selected > today) {
+        alert("Invalid date of birth.");
+        return;
+      }
     }
-    const today = new Date();
-    const selected = new Date(dob);
-    if (selected > today) {
-      alert("Invalid date of birth");
+
+    // FULL VALIDATION for final submit
+    if (!username.trim() || !email.trim() || !phone.trim() || !dob.trim()) {
+      alert(
+        `Please fill out ${
+          !username
+            ? "Username"
+            : !email
+            ? "Email Address"
+            : !phone
+            ? "Phone Number"
+            : "Date of Birth"
+        }`
+      );
       return;
     }
 
+    // RESET + CLOSE
     setUsername("");
     setEmail("");
     setPhone("");
@@ -49,12 +57,15 @@ function App() {
     setIsOpen(false);
   };
 
+  // Close modal when clicking outside
   const closeOnOutside = (e) => {
     if (e.target.className === "overlay") setIsOpen(false);
   };
 
   return (
-    <div className="App">
+    <div id="root" className="App" onClick={(e) => {
+      if (isOpen && e.target.id === "root") setIsOpen(false);
+    }}>
       <h1>User Details Modal</h1>
       <button onClick={() => setIsOpen(true)}>Open Form</button>
 
@@ -65,33 +76,16 @@ function App() {
               <h2>Fill Details</h2>
               <form onSubmit={handleSubmit}>
                 <label>Username:</label>
-                <input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
+                <input id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
 
                 <label>Email Address:</label>
-                <input
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                 <label>Phone Number:</label>
-                <input
-                  id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
+                <input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 <label>Date of Birth:</label>
-                <input
-                  id="dob"
-                  type="date"
-                  value={dob}
-                  onChange={(e) => setDob(e.target.value)}
-                />
+                <input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
 
                 <button type="submit" className="submit-button">
                   Submit

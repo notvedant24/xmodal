@@ -73,3 +73,33 @@ input {
   cursor: pointer;
   margin-top: 10px;
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.submit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
